@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {Navbar} from '../base-components';
 import SearchOptions from './SearchOptions';
 import RestaurantList from './RestaurantList';
+import SearchResultsPage from './searchComp/SearchResultsPage';
 
 const UserDashboard = () => {
   const [step, setStep] = useState(1);
@@ -28,7 +29,7 @@ const UserDashboard = () => {
         {step === 1 ? (
           <SearchOptions {...{ searchType, setSearchType, searchCriteria, setSearchCriteria, handleSearchSubmit, professions }} />
         ) : (
-          <RestaurantList filteredRestaurants={restaurants} setSelectedRestaurant={setSelectedRestaurant} setShowCreateTable={setShowCreateTable} />
+            <SearchResultsPage filteredRestaurants={restaurants} setSelectedRestaurant={setSelectedRestaurant} setShowCreateTable={setShowCreateTable} />
         )}
       </main>
     </div>

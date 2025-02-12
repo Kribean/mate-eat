@@ -68,8 +68,10 @@ const HomePage = () => {
   const [activeModal, setActiveModal] = useState(null);
 
   return (
-    <div className="min-h-screen">
-      <div className="bg-gradient-to-br from-blue-500 to-blue-700 text-white text-center py-24">
+    <div className="min-h-screen" >
+      <div className="bg-gradient-to-br from-blue-500 to-blue-700 text-white text-center py-24" style={{
+      backgroundImage: "url(/images/background_food.png)",
+    }}>
         <h1 className="text-4xl font-bold mb-6">Connect Over Great Food</h1>
         <p className="text-xl mb-12 text-blue-100">Join tables, meet new people, and discover amazing restaurants</p>
         <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
