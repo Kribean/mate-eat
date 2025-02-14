@@ -8,7 +8,7 @@ const TableParticipants = ({ participants, isOpen, onToggle }) => {
         onClick={onToggle}
         className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
       >
-        {isOpen ? 'Hide' : 'Show'} participants ({participants.length})
+        {isOpen ? 'Cacher' : 'Afficher'} les participants ({participants.length})
         <ChevronDown className={`w-4 h-4 transform transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       

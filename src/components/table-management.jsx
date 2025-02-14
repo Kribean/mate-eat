@@ -5,7 +5,7 @@ const JoinTableModal = ({ onClose, session }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg max-w-md w-full p-6">
-        <h3 className="text-xl font-semibold mb-4">Join Table at {session.restaurantName}</h3>
+        <h3 className="text-xl font-semibold mb-4">Intégrer le groupe at {session.restaurantName}</h3>
         
         <div className="space-y-4">
           <div className="flex items-start space-x-3">
@@ -68,20 +68,20 @@ const AppointmentsPage = () => {
   const appointments = [
     {
       id: 1,
-      restaurantName: "La Bella Italia",
+      restaurantName: "Le Duplex",
       datetime: "2025-02-15 19:30",
       status: "upcoming",
       guests: 4,
-      address: "123 Main St, 75001 Paris",
+      address: "24 All. Jean Jaurès, 31000 Paris",
       type: "Italian"
     },
     {
       id: 3,
-      restaurantName: "La Bella Italia",
+      restaurantName: "Le Duplex",
       datetime: "2025-02-15 19:30",
       status: "upcoming",
       guests: 4,
-      address: "123 Main St, 75001 Paris",
+      address: "24 All. Jean Jaurès, 31000 Paris",
       type: "Italian"
     },
     {
@@ -136,7 +136,7 @@ const AppointmentsPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-2xl font-bold mb-6">My Appointments</h1>
+        <h1 className="text-2xl font-bold mb-6">Mes rendez-vous</h1>
 
         <div className="bg-white rounded-lg shadow-sm p-1 mb-6 inline-flex">
           <button

@@ -29,7 +29,7 @@ const AvailableTable = ({ table, isExpanded, toggleExpand }) => {
 
       {table.participants.length < table.size && (
         <button className="mt-3 w-full border border-blue-600 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors text-sm">
-          Join Table
+          Intégrer le groupe
         </button>
       )}
     </div>

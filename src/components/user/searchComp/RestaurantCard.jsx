@@ -1,9 +1,11 @@
 import React from 'react';
 import { MapPin } from 'lucide-react';
 import AvailableTable from './AvailableTable';
+import CreateGroupModal from '../../CreateGroupModal';
 
 const RestaurantCard = ({ restaurant, expandedTables, toggleTableParticipants }) => {
   return (
+    <>
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
       <img
         src={restaurant.images[0]}
@@ -26,7 +28,7 @@ const RestaurantCard = ({ restaurant, expandedTables, toggleTableParticipants })
 
         <p className="text-sm text-gray-600 mb-4">⭐ {restaurant.rating}</p>
 
-        <h4 className="font-medium mb-2">Available Tables</h4>
+        <h4 className="font-medium mb-2">Groupes disponibles</h4>
         <div className="space-y-4">
           {restaurant.availableTables.map((table) => (
             <AvailableTable
@@ -37,12 +39,10 @@ const RestaurantCard = ({ restaurant, expandedTables, toggleTableParticipants })
             />
           ))}
         </div>
-
-        <button className="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-          Create New Table
-        </button>
+        <CreateGroupModal restaurant={restaurant}/>
       </div>
     </div>
+    </>
   );
 };
 

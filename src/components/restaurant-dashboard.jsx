@@ -6,12 +6,12 @@ const RestaurantDashboard = () => {
   const [restaurants, setRestaurants] = useState([
     {
       id: 1,
-      businessName: "Italian Delight",
+      businessName: "Le Duplex",
       managerName: "John Doe",
-      address: "123 Main St",
-      postalCode: "12345",
-      foodType: "Italian",
-      bookingUrl: "https://booking.italiandelight.com",
+      address: "24 All. Jean Jaurès",
+      postalCode: "31000",
+      foodType: "French",
+      bookingUrl: "https://www.google.com/maps/reserve/v/dine/c/BZyjhyELQHg?source=pa&opi=89978449&hl=fr-FR&gei=uxKvZ_6oN8imkdUPu8PfoAE&sourceurl=https%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3Dle%2Bduplex%2Btoulouse%26rlz%3D1C1VDKB_frFR1084FR1084%26oq%3Dle%2Bduplex%2Btoul%26pf%3Dcs%26sourceid%3Dchrome%26ie%3DUTF-8&ihs=3",
       bookings: [
         { date: "2025-02-11", guests: [
           { name: "Alice Smith", time: "12:00", party: 4 },
@@ -78,7 +78,7 @@ const RestaurantDashboard = () => {
           className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
         >
           <PlusCircle className="w-4 h-4" />
-          Add Restaurant
+          Ajouter Restaurant
         </button>
       </div>
 
@@ -251,11 +251,11 @@ const RestaurantDashboard = () => {
                 )}
               </div>
 
-              {/* Today's Bookings */}
+              {/* Réservations du jour */}
               <div className="mt-4">
                 <h4 className="text-md font-semibold flex items-center gap-2 mb-2">
                   <Calendar className="w-4 h-4" />
-                  Today's Bookings
+                  Réservations du jour
                 </h4>
                 <div className="space-y-2">
                   {restaurant.bookings[0]?.guests.map((booking, index) => (

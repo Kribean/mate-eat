@@ -73,10 +73,10 @@ const HomePage = () => {
       backgroundImage: "url(/images/background_food.png)",
     }}>
         <h1 className="text-4xl font-bold mb-6">Connect Over Great Food</h1>
-        <p className="text-xl mb-12 text-blue-100">Join tables, meet new people, and discover amazing restaurants</p>
+        <p className="text-xl mb-12 text-blue-100">Intégrer le groupes, meet new people, and discover amazing restaurants</p>
         <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-          <Button text="Continue as User" icon={<Users />} onClick={() => setActiveModal('user')} />
-          <Button text="Continue as Business" icon={<Building2 />} onClick={() => setActiveModal('business')} bgColor="bg-blue-800" hoverColor="hover:bg-blue-900" textColor="text-white" />
+          <Button text="Continuer en tant qu'utilisateur" icon={<Users />} onClick={() => setActiveModal('user')} />
+          <Button text="Continuer en tant qu'entrprise" icon={<Building2 />} onClick={() => setActiveModal('business')} bgColor="bg-blue-800" hoverColor="hover:bg-blue-900" textColor="text-white" />
         </div>
       </div>
       <FeatureSection />
@@ -94,11 +94,11 @@ const Button = ({ text, icon, onClick, bgColor = "bg-white", hoverColor = "hover
 const FeatureSection = () => (
   <div className="py-24 bg-gray-50">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 className="text-3xl font-bold mb-12">How It Works</h2>
+      <h2 className="text-3xl font-bold mb-12">Comment ça fonctionne</h2>
       <div className="grid md:grid-cols-3 gap-8">
-        <Feature title="Join a Table" icon={<Users className="w-8 h-8 text-blue-600" />} text="Find and join tables at your favorite restaurants and meet new people" />
-        <Feature title="Register Your Restaurant" icon={<Building2 className="w-8 h-8 text-blue-600" />} text="Create a business profile and start hosting social dining experiences" />
-        <Feature title="Manage Bookings" icon={<Calendar className="w-8 h-8 text-blue-600" />} text="Easily keep track of your dining appointments and table sessions" />
+        <Feature title="Joindre une Table de réseautage" icon={<Users className="w-8 h-8 text-blue-600" />} text="Trouvez et intégrez des groupes dans vos restaurants préférés pour rencontrer de nouvelles personnes" />
+        <Feature title="Entreprise ? Inscrivez votre restaurant pour réseauter" icon={<Building2 className="w-8 h-8 text-blue-600" />} text="Créez un profil entreprise et permettez l'organisation de repas sociaux" />
+        <Feature title="Créer ses opportunités" icon={<Calendar className="w-8 h-8 text-blue-600" />} text="Créez vos opportunités et suivez facilement vos rendez-vous et sessions" />
       </div>
     </div>
   </div>

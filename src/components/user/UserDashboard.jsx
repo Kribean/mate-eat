@@ -3,6 +3,7 @@ import {Navbar} from '../base-components';
 import SearchOptions from './SearchOptions';
 import RestaurantList from './RestaurantList';
 import SearchResultsPage from './searchComp/SearchResultsPage';
+import ChatRoomModal from '../ChatRoomModal';
 
 const UserDashboard = () => {
   const [step, setStep] = useState(1);
@@ -13,7 +14,7 @@ const UserDashboard = () => {
 
   const professions = ["Software Engineer", "Designer", "Marketing", "Finance", "Healthcare", "Education"];
   const restaurants = [
-    { id: 1, name: "La Bella Italia", type: "Italian", address: "123 Main St", postalCode: "75001" },
+    { id: 1, name: "Le Duplex", type: "French", address: "24 All. Jean Jaurès", postalCode: "31000" },
     { id: 2, name: "Sushi Master", type: "Japanese", address: "456 Oak St", postalCode: "75002" }
   ];
 
@@ -29,7 +30,10 @@ const UserDashboard = () => {
         {step === 1 ? (
           <SearchOptions {...{ searchType, setSearchType, searchCriteria, setSearchCriteria, handleSearchSubmit, professions }} />
         ) : (
+          <>
             <SearchResultsPage filteredRestaurants={restaurants} setSelectedRestaurant={setSelectedRestaurant} setShowCreateTable={setShowCreateTable} />
+            <ChatRoomModal />
+            </>
         )}
       </main>
     </div>

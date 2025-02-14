@@ -63,7 +63,7 @@ const RestoDashboard = () => {
                   Create Table
                 </Button>
                 <Button variant="outline">
-                  Join Table
+                  Intégrer le groupe
                 </Button>
               </div>
             </div>

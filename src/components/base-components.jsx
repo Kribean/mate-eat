@@ -65,12 +65,12 @@ export const Navbar = ({ userName }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
-            <Link href={"/utilisateurs"} className="text-xl font-semibold">TableShare</Link>
+            <Link href={"/utilisateurs"} className="text-xl font-semibold">Jirani</Link>
           </div>
           <div className="flex items-center space-x-4">
             <LinkButton url='/utilisateurs/rdv' variant="outline" className="flex items-center">
               <Calendar className="w-4 h-4 mr-2" />
-              My Appointments
+              Mes rendez-vous
             </LinkButton>
             <div className="flex items-center space-x-2">
               <Users className="w-5 h-5 text-gray-600" />

@@ -5,10 +5,10 @@ const SearchResultsPage = () => {
     const [filteredRestaurants] = useState([
         {
           id: 1,
-          name: "La Bella Italia",
+          name: "Le Duplex",
           type: "Italian",
-          address: "123 Main St",
-          postalCode: "75001",
+          address: "24 All. Jean Jaurès",
+          postalCode: "31000",
           priceRange: "$$",
           rating: 4.5,
           availableTables: [
@@ -16,7 +16,7 @@ const SearchResultsPage = () => {
               id: 1,
               time: "18:00",
               size: 4,
-              description: "Looking for fellow tech enthusiasts to discuss startup ideas over authentic Italian cuisine! Open to all experience levels.",
+              description: "À la recherche de passionnés de technologie pour discuter d'idées de startups autour d'une authentique cuisine ! Ouvert à tous les niveaux d'expérience.",
               creator: {
                 name: "Sarah Chen",
                 profession: "Software Engineer"
@@ -166,7 +166,7 @@ const SearchResultsPage = () => {
     <div className="min-h-screen bg-gray-50">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredRestaurants.map(restaurant => (
+        {filteredRestaurants.map(restaurant => (
             <RestaurantCard
               key={restaurant.id}
               restaurant={restaurant}

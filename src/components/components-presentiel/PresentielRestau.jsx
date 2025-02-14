@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import RestaurantCard from '../user/searchComp/RestaurantCard';
 import { Navbar } from '../base-components';
+import ChatRoomModal from '../ChatRoomModal';
 
 const PresentielRestau = () => {
     const [filteredRestaurants] = useState([
         {
           id: 1,
-          name: "La Bella Italia",
-          type: "Italian",
-          address: "123 Main St",
-          postalCode: "75001",
+          name: "Le Duplex",
+          type: "French",
+          address: "24 All. Jean Jaurès",
+          postalCode: "31000",
           priceRange: "$$",
-          rating: 4.5,
+          rating: 4,
           availableTables: [
             {
               id: 1,
-              time: "18:00",
+              time: "12:00",
               size: 4,
-              description: "Looking for fellow tech enthusiasts to discuss startup ideas over authentic Italian cuisine! Open to all experience levels.",
+              description: "À la recherche de passionnés de technologie pour discuter d'idées de startups autour d'une authentique cuisine ! Ouvert à tous les niveaux d'expérience.",
               creator: {
                 name: "Sarah Chen",
                 profession: "Software Engineer"
@@ -30,9 +31,9 @@ const PresentielRestau = () => {
             },
             {
               id: 2,
-              time: "19:30",
+              time: "12:30",
               size: 6,
-              description: "Marketing professionals meetup - Let's share industry insights and network while enjoying great food!",
+              description: "Rencontre des professionnels du marketing – Partageons nos connaissances sur l'industrie et élargissons notre réseau tout en savourant un excellent repas !",
               creator: {
                 name: "David Wilson",
                 profession: "Marketing Director"
@@ -58,6 +59,7 @@ const PresentielRestau = () => {
   };
 
   return (
+    <>
     <div className="min-h-screen bg-gray-50">
         <Navbar/>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -73,6 +75,8 @@ const PresentielRestau = () => {
         </div>
       </main>
     </div>
+    <ChatRoomModal/>
+    </>
   );
 };
 
