@@ -1,21 +1,21 @@
 import { MapPin, Briefcase } from 'lucide-react';
 
-const SearchOptions = ({ searchType, setSearchType, searchCriteria, setSearchCriteria, handleSearchSubmit, professions }) => {
-  const handleProfessionChange = (profession) => {
+const SearchOptions = ({ searchType, setSearchType, searchCriteria, setSearchCriteria, handleSearchSubmit, activities }) => {
+  const handleActivityChange = (activity) => {
     setSearchCriteria(prev => ({
       ...prev,
       postalCode:''
       ,
-      professions: prev.professions?.includes(profession)
-        ? prev.professions.filter(p => p !== profession)
-        : [...(prev.professions || []), profession]
+      activities: prev.activities?.includes(activity)
+        ? prev.activities.filter(p => p !== activity)
+        : [...(prev.activities || []), activity]
     }));
   };
 
   const handleChangePostal = (e)=>{
     const regex =/^\d*$/;
     if(regex.test(e.target.value))
-    {return setSearchCriteria({ ...searchCriteria, postalCode: e.target.value,professions: [] })}
+    {return setSearchCriteria({ ...searchCriteria, postalCode: e.target.value,activities: [] })}
   }
   return (
     <div className="space-y-6">
@@ -50,39 +50,39 @@ const SearchOptions = ({ searchType, setSearchType, searchCriteria, setSearchCri
           )}
         </div>
 
-        {/* Search by Profession */}
+        {/* Search by Activity */}
         <div
           className={`p-6 rounded-lg border-2 cursor-pointer transition-all ${
-            searchType === 'profession' ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-blue-200'
+            searchType === 'activity' ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-blue-200'
           }`}
-          onClick={() => setSearchType('profession')}
+          onClick={() => setSearchType('activity')}
         >
           <div className="flex items-center gap-3 mb-4">
             <Briefcase className="w-6 h-6 text-blue-500" />
-            <h2 className="text-xl font-semibold">Join by Profession</h2>
+            <h2 className="text-xl font-semibold">Join by Activity</h2>
           </div>
-          {searchType === 'profession' && (
+          {searchType === 'activity' && (
             <form onSubmit={handleSearchSubmit} className="mt-4 space-y-4">
             <div className="max-h-48 overflow-y-auto border border-gray-300 rounded-lg p-3">
-              {professions.map((profession) => (
-                <label key={profession} className="flex items-center space-x-2 hover:bg-gray-50 p-2 rounded cursor-pointer">
+              {activities.map((activity) => (
+                <label key={activity} className="flex items-center space-x-2 hover:bg-gray-50 p-2 rounded cursor-pointer">
                   <input
                     type="checkbox"
-                    checked={searchCriteria.professions?.includes(profession) || false}
-                    onChange={() => handleProfessionChange(profession)}
+                    checked={searchCriteria.activities?.includes(activity) || false}
+                    onChange={() => handleActivityChange(activity)}
                     className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
                   />
-                  <span className="text-sm">{profession}</span>
+                  <span className="text-sm">{activity}</span>
                 </label>
               ))}
             </div>
-            {searchCriteria.professions?.length === 0 && (
-              <p className="text-sm text-red-500">Please select at least one profession</p>
+            {searchCriteria.activities?.length === 0 && (
+              <p className="text-sm text-red-500">Please select at least one activity</p>
             )}
             <button 
               type="submit" 
               className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-              disabled={!searchCriteria.professions?.length}
+              disabled={!searchCriteria.activities?.length}
             >
               Find Tables
             </button>

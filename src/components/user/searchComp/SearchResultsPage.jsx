@@ -1,158 +1,66 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import RestaurantCard from './RestaurantCard';
+import { Filter } from 'lucide-react';
 
-const SearchResultsPage = () => {
-    const [filteredRestaurants] = useState([
-        {
-          id: 1,
-          name: "Le Duplex",
-          type: "Italian",
-          address: "24 All. Jean Jaurès",
-          postalCode: "31000",
-          priceRange: "$$",
-          rating: 4.5,
-          availableTables: [
-            {
-              id: 1,
-              time: "18:00",
-              size: 4,
-              description: "À la recherche de passionnés de technologie pour discuter d'idées de startups autour d'une authentique cuisine ! Ouvert à tous les niveaux d'expérience.",
-              creator: {
-                name: "Sarah Chen",
-                profession: "Software Engineer"
-              },
-              participants: [
-                { name: "Sarah Chen", profession: "Software Engineer" },
-                { name: "Mike Ross", profession: "Product Manager" },
-                { name: "Alex Kim", profession: "UX Designer" }
-              ]
-            },
-            {
-              id: 2,
-              time: "19:30",
-              size: 6,
-              description: "Marketing professionals meetup - Let's share industry insights and network while enjoying great food!",
-              creator: {
-                name: "David Wilson",
-                profession: "Marketing Director"
-              },
-              participants: [
-                { name: "David Wilson", profession: "Marketing Director" },
-                { name: "Emma Thompson", profession: "Content Strategist" }
-              ]
-            }
-          ],
-          images: ["/images/restaurant-img.png"]
-        },
-        {
-          id: 2,
-          name: "Sushi Master",
-          type: "Japanese",
-          address: "456 Oak St",
-          postalCode: "75002",
-          priceRange: "$$$",
-          rating: 4.8,
-          availableTables: [
-            {
-              id: 1,
-              time: "19:00",
-              size: 4,
-              description: "Creative minds dinner - Join us for an evening of design talk and amazing sushi!",
-              creator: {
-                name: "Lisa Park",
-                profession: "Designer"
-              },
-              participants: [
-                { name: "Lisa Park", profession: "Designer" },
-                { name: "James Chen", profession: "Art Director" }
-              ]
-            }
-          ],
-          images: ["/images/restaurant-img.png"]
-        },
-        {
-          id: 3,
-          name: "Le Petit Bistro",
-          type: "French",
-          address: "789 Elm St",
-          postalCode: "75003",
-          priceRange: "$$$",
-          rating: 4.7,
-          availableTables: [
-            {
-              id: 1,
-              time: "20:00",
-              size: 6,
-              description: "Writers and poets gathering - Let's discuss literature over fine French cuisine!",
-              creator: {
-                name: "Marie Laurent",
-                profession: "Author"
-              },
-              participants: [
-                { name: "Marie Laurent", profession: "Author" },
-                { name: "John Smith", profession: "Poet" },
-                { name: "Emily Brown", profession: "Editor" }
-              ]
-            }
-          ],
-          images: ["/images/restaurant-img.png"]
-        },
-        {
-          id: 4,
-          name: "Taco Fiesta",
-          type: "Mexican",
-          address: "321 Pine St",
-          postalCode: "75004",
-          priceRange: "$",
-          rating: 4.3,
-          availableTables: [
-            {
-              id: 1,
-              time: "19:30",
-              size: 8,
-              description: "Casual networking dinner for entrepreneurs and freelancers!",
-              creator: {
-                name: "Carlos Rodriguez",
-                profession: "Entrepreneur"
-              },
-              participants: [
-                { name: "Carlos Rodriguez", profession: "Entrepreneur" },
-                { name: "Sarah Lee", profession: "Freelance Developer" },
-                { name: "Tom Wilson", profession: "Business Consultant" }
-              ]
-            }
-          ],
-          images: ["/images/restaurant-img.png"]
-        },
-        {
-          id: 5,
-          name: "The Green Garden",
-          type: "Vegetarian",
-          address: "567 Maple Ave",
-          postalCode: "75005",
-          priceRange: "$$",
-          rating: 4.6,
-          availableTables: [
-            {
-              id: 1,
-              time: "18:30",
-              size: 4,
-              description: "Health and wellness professionals meetup - Let's discuss latest trends in nutrition!",
-              creator: {
-                name: "Amanda Green",
-                profession: "Nutritionist"
-              },
-              participants: [
-                { name: "Amanda Green", profession: "Nutritionist" },
-                { name: "David Cooper", profession: "Fitness Trainer" }
-              ]
-            }
-          ],
-          images: ["/images/restaurant-img.png"]
-        }
-      ]);
+const SearchResultsPage = ({filteredRestaurants}) => {
 
+  const activities = [
+    { code: "A", name: "Agriculture, pêche, chasse et espaces naturels" },
+    { code: "B", name: "Arts et arts du spectacle" },
+    { code: "C", name: "Banque, assurance, immobilier" },
+    { code: "D", name: "Commerce, vente et grande distribution" },
+    { code: "E", name: "Communication, médias et multimédia" },
+    { code: "F", name: "Construction, bâtiment et travaux publics" },
+    { code: "G", name: "Hôtellerie-restauration, tourisme, loisirs et animation" },
+    { code: "H", name: "Industrie" },
+    { code: "I", name: "Informatique et télécommunications" },
+    { code: "J", name: "Juridique" },
+    { code: "K", name: "Management et gestion des entreprises" },
+    { code: "L", name: "Santé" },
+    { code: "M", name: "Sciences humaines et sociales" },
+    { code: "N", name: "Secrétariat et assistanat" },
+    { code: "P", name: "Services à la personne et à la collectivité" },
+    { code: "Q", name: "Transport et logistique" }
+  ];
   const [expandedTables, setExpandedTables] = useState(new Set());
+  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState({
+    postalCode: '',
+    selectedActivities: []
+  });
+  const [filteredResults, setFilteredResults] = useState(filteredRestaurants);
+
+
+  const handleActivityToggle = (activityCode) => {
+    setFilters(prev => ({
+      ...prev,
+      selectedActivities: prev.selectedActivities.includes(activityCode)
+        ? prev.selectedActivities.filter(code => code !== activityCode)
+        : [...prev.selectedActivities, activityCode]
+    }));
+  };
+
+  useEffect(() => {
+    let results = [...filteredRestaurants];
+
+    if (filters.postalCode) {
+      results = results.filter(restaurant => 
+        restaurant.postalCode.startsWith(filters.postalCode)
+      );
+    }
+
+    if (filters.selectedActivities.length > 0) {
+      results = results.filter(restaurant => 
+        restaurant.tables.some(table => 
+          table.participants.some(participant => 
+            filters.selectedActivities.includes(participant.activity)
+          )
+        )
+      );
+    }
+
+    setFilteredResults(results);
+  }, [filters, filteredRestaurants]);
 
   const toggleTableParticipants = (tableId) => {
     setExpandedTables(prev => {
@@ -165,6 +73,75 @@ const SearchResultsPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+                {/* Filter Header */}
+                <div className="mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold">Search Results</h2>
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+            >
+              <Filter className="w-4 h-4" />
+              Filters
+            </button>
+          </div>
+
+          {/* Filter Panel */}
+          {showFilters && (
+            <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-6">
+              <div className="grid md:grid-cols-2 gap-4">
+                {/* Postal Code Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Postal Code
+                  </label>
+                  <input
+                    type="text"
+                    value={filters.postalCode}
+                    onChange={(e) => setFilters(prev => ({ ...prev, postalCode: e.target.value }))}
+                    placeholder="Enter postal code"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+
+                {/* Activities Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Activities
+                  </label>
+                  <div className="max-h-48 overflow-y-auto border border-gray-300 rounded-lg p-3">
+                    {activities.map((activity) => (
+                      <label
+                        key={activity.code}
+                        className="flex items-center space-x-2 hover:bg-gray-50 p-2 rounded cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={filters.selectedActivities.includes(activity.code)}
+                          onChange={() => handleActivityToggle(activity.code)}
+                          className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                        />
+                        <span className="text-sm">
+                          {activity.code} - {activity.name}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Results Count */}
+          <div className="text-sm text-gray-600">
+            {filteredResults.length} results found
+          </div>
+        </div>
+
+
+
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredRestaurants.map(restaurant => (
             <RestaurantCard
