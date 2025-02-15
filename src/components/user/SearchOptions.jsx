@@ -1,6 +1,22 @@
 import { MapPin, Briefcase } from 'lucide-react';
 
 const SearchOptions = ({ searchType, setSearchType, searchCriteria, setSearchCriteria, handleSearchSubmit, professions }) => {
+  const handleProfessionChange = (profession) => {
+    setSearchCriteria(prev => ({
+      ...prev,
+      postalCode:''
+      ,
+      professions: prev.professions?.includes(profession)
+        ? prev.professions.filter(p => p !== profession)
+        : [...(prev.professions || []), profession]
+    }));
+  };
+
+  const handleChangePostal = (e)=>{
+    const regex =/^\d*$/;
+    if(regex.test(e.target.value))
+    {return setSearchCriteria({ ...searchCriteria, postalCode: e.target.value,professions: [] })}
+  }
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">How would you like to find your table?</h1>
@@ -22,7 +38,7 @@ const SearchOptions = ({ searchType, setSearchType, searchCriteria, setSearchCri
               <input
                 type="text"
                 value={searchCriteria.postalCode}
-                onChange={(e) => setSearchCriteria({ ...searchCriteria, postalCode: e.target.value })}
+                onChange={(e) =>handleChangePostal(e) }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter Postal Code"
                 required
@@ -47,21 +63,31 @@ const SearchOptions = ({ searchType, setSearchType, searchCriteria, setSearchCri
           </div>
           {searchType === 'profession' && (
             <form onSubmit={handleSearchSubmit} className="mt-4 space-y-4">
-              <select
-                value={searchCriteria.profession}
-                onChange={(e) => setSearchCriteria({ ...searchCriteria, profession: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                required
-              >
-                <option value="">Select profession</option>
-                {professions.map((prof) => (
-                  <option key={prof} value={prof}>{prof}</option>
-                ))}
-              </select>
-              <button type="submit" className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                Find Tables
-              </button>
-            </form>
+            <div className="max-h-48 overflow-y-auto border border-gray-300 rounded-lg p-3">
+              {professions.map((profession) => (
+                <label key={profession} className="flex items-center space-x-2 hover:bg-gray-50 p-2 rounded cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={searchCriteria.professions?.includes(profession) || false}
+                    onChange={() => handleProfessionChange(profession)}
+                    className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                  />
+                  <span className="text-sm">{profession}</span>
+                </label>
+              ))}
+            </div>
+            {searchCriteria.professions?.length === 0 && (
+              <p className="text-sm text-red-500">Please select at least one profession</p>
+            )}
+            <button 
+              type="submit" 
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+              disabled={!searchCriteria.professions?.length}
+            >
+              Find Tables
+            </button>
+          </form>
+
           )}
         </div>
       </div>

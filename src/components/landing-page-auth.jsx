@@ -1,68 +1,8 @@
 import React, { useState } from 'react';
-import { Users, Building2, ChevronRight, X, Calendar } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { Users, Building2, ChevronRight, Calendar } from 'lucide-react';
+import UserAuthForm from './Auth/user-signup-form';
+import BusinessAuthForm from './Auth/business-auth-form';
 
-const UserSignupFields = () => (
-  <>
-    <div className="grid grid-cols-2 gap-4">
-      <InputField label="First Name" type="text" />
-      <InputField label="Last Name" type="text" />
-    </div>
-    <InputField label="Phone Number" type="tel" />
-  </>
-);
-
-const BusinessSignupFields = () => (
-  <>
-    <InputField label="Business Name" type="text" />
-    <InputField label="Business Address" type="text" />
-    <div className="grid grid-cols-2 gap-4">
-      <InputField label="Postal Code" type="text" />
-      <InputField label="Phone Number" type="tel" />
-    </div>
-  </>
-);
-
-const InputField = ({ label, type, placeholder }) => (
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-    <input
-      type={type}
-      placeholder={placeholder}
-      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-    />
-  </div>
-);
-
-const AuthModal = ({ type, onClose,accountType }) => {
-  const router = useRouter();
-  const [isLogin, setIsLogin] = useState(true);
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg max-w-md w-full p-6 relative">
-        <button onClick={onClose} className="absolute right-4 top-4 text-gray-400 hover:text-gray-600">
-          <X className="w-5 h-5" />
-        </button>
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold">{type === 'user' ? 'Welcome Back!' : 'Business Portal'}</h2>
-          <div className="mt-2 inline-flex rounded-lg p-1 bg-gray-100">
-            <button className={`px-4 py-2 rounded-md text-sm font-medium ${isLogin ? 'bg-white shadow-sm' : 'text-gray-500 hover:text-gray-900'}`} onClick={() => setIsLogin(true)}>Login</button>
-            <button className={`px-4 py-2 rounded-md text-sm font-medium ${!isLogin ? 'bg-white shadow-sm' : 'text-gray-500 hover:text-gray-900'}`} onClick={() => setIsLogin(false)}>Sign Up</button>
-          </div>
-        </div>
-        <div className="space-y-4">
-          {!isLogin && (type === 'user' ? <UserSignupFields /> : <BusinessSignupFields />)}
-          <InputField label="Email" type="email" placeholder="Enter your email" />
-          <InputField label="Password" type="password" placeholder={isLogin ? "Enter your password" : "Create a password"} />
-        </div>
-        <button onClick={() => router.push(accountType==="user"?"/utilisateurs":"/entreprise")} className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 font-medium">
-            {isLogin ? 'Log In' : 'Create Account'}
-          </button>
-      </div>
-    </div>
-  );
-};
 
 const HomePage = () => {
   const [activeModal, setActiveModal] = useState(null);
@@ -80,7 +20,8 @@ const HomePage = () => {
         </div>
       </div>
       <FeatureSection />
-      {activeModal && <AuthModal accountType={activeModal} type={activeModal} onClose={() => setActiveModal(null)} />}
+      {activeModal=='user' && <UserAuthForm onClose={() => setActiveModal(null)} />}
+      {activeModal=='business' && <BusinessAuthForm onClose={() => setActiveModal(null)} />}
     </div>
   );
 };

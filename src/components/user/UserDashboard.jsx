@@ -1,18 +1,35 @@
 import React, { useState } from 'react';
 import {Navbar} from '../base-components';
 import SearchOptions from './SearchOptions';
-import RestaurantList from './RestaurantList';
 import SearchResultsPage from './searchComp/SearchResultsPage';
 import ChatRoomModal from '../ChatRoomModal';
 
 const UserDashboard = () => {
   const [step, setStep] = useState(1);
   const [searchType, setSearchType] = useState('');
-  const [searchCriteria, setSearchCriteria] = useState({ postalCode: '', profession: '' });
-  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
-  const [showCreateTable, setShowCreateTable] = useState(false);
+  const [searchCriteria, setSearchCriteria] = useState({ postalCode: '', professions: [] });
+  const [selectedRestaurant,setSelectedRestaurant]=useState([])
+  const [filteredRestaurants,setFilteredRestaurants]=useState([])
 
-  const professions = ["Software Engineer", "Designer", "Marketing", "Finance", "Healthcare", "Education"];
+  const professions =
+  [
+    "Agriculture, pêche, chasse et espaces naturels" ,
+    "Arts et arts du spectacle" ,
+    "Banque, assurance, immobilier" ,
+    "Commerce, vente et grande distribution" ,
+    "Communication, médias et multimédia" ,
+    "Construction, bâtiment et travaux publics" ,
+    "Hôtellerie-restauration, tourisme, loisirs et animation" ,
+    "Industrie" ,
+    "Informatique et télécommunications" ,
+    "Juridique" ,
+    "Management et gestion des entreprises" ,
+    "Santé" ,
+    "Sciences humaines et sociales" ,
+    "Secrétariat et assistanat" ,
+    "Services à la personne et à la collectivité" ,
+    "Transport et logistique" 
+  ];
   const restaurants = [
     { id: 1, name: "Le Duplex", type: "French", address: "24 All. Jean Jaurès", postalCode: "31000" },
     { id: 2, name: "Sushi Master", type: "Japanese", address: "456 Oak St", postalCode: "75002" }
@@ -31,7 +48,7 @@ const UserDashboard = () => {
           <SearchOptions {...{ searchType, setSearchType, searchCriteria, setSearchCriteria, handleSearchSubmit, professions }} />
         ) : (
           <>
-            <SearchResultsPage filteredRestaurants={restaurants} setSelectedRestaurant={setSelectedRestaurant} setShowCreateTable={setShowCreateTable} />
+            <SearchResultsPage filteredRestaurants={restaurants} setSelectedRestaurant={setSelectedRestaurant} />
             <ChatRoomModal />
             </>
         )}
