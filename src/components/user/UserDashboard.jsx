@@ -249,7 +249,12 @@ const UserDashboard = () => {
           <SearchOptions {...{ searchType, setSearchType, searchCriteria, setSearchCriteria, handleSearchSubmit, activities }} />
         ) : (
           <>
-            <SearchResultsPage filteredRestaurants={filteredRestaurants} setSelectedRestaurant={setSelectedRestaurant} />
+            <SearchResultsPage 
+            filteredRestaurants={filteredRestaurants} 
+            setSelectedRestaurant={setSelectedRestaurant}
+            activities={activities}
+            searchCriteria={searchCriteria}
+            setSearchCriteria={setSearchCriteria} />
             <ChatRoomModal />
             </>
         )}

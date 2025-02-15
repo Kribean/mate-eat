@@ -2,65 +2,26 @@ import React, { useEffect, useState } from 'react';
 import RestaurantCard from './RestaurantCard';
 import { Filter } from 'lucide-react';
 
-const SearchResultsPage = ({filteredRestaurants}) => {
+const SearchResultsPage = ({filteredRestaurants,activities, searchCriteria, setSearchCriteria}) => {
 
-  const activities = [
-    { code: "A", name: "Agriculture, pêche, chasse et espaces naturels" },
-    { code: "B", name: "Arts et arts du spectacle" },
-    { code: "C", name: "Banque, assurance, immobilier" },
-    { code: "D", name: "Commerce, vente et grande distribution" },
-    { code: "E", name: "Communication, médias et multimédia" },
-    { code: "F", name: "Construction, bâtiment et travaux publics" },
-    { code: "G", name: "Hôtellerie-restauration, tourisme, loisirs et animation" },
-    { code: "H", name: "Industrie" },
-    { code: "I", name: "Informatique et télécommunications" },
-    { code: "J", name: "Juridique" },
-    { code: "K", name: "Management et gestion des entreprises" },
-    { code: "L", name: "Santé" },
-    { code: "M", name: "Sciences humaines et sociales" },
-    { code: "N", name: "Secrétariat et assistanat" },
-    { code: "P", name: "Services à la personne et à la collectivité" },
-    { code: "Q", name: "Transport et logistique" }
-  ];
   const [expandedTables, setExpandedTables] = useState(new Set());
   const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState({
-    postalCode: '',
-    selectedActivities: []
-  });
-  const [filteredResults, setFilteredResults] = useState(filteredRestaurants);
 
-
-  const handleActivityToggle = (activityCode) => {
-    setFilters(prev => ({
-      ...prev,
-      selectedActivities: prev.selectedActivities.includes(activityCode)
-        ? prev.selectedActivities.filter(code => code !== activityCode)
-        : [...prev.selectedActivities, activityCode]
+  const handleActivityChange = (activity) => {
+    setSearchCriteria(prev => ({
+      ...prev
+      ,
+      activities: prev.activities?.includes(activity)
+        ? prev.activities.filter(p => p !== activity)
+        : [...(prev.activities || []), activity]
     }));
   };
 
-  useEffect(() => {
-    let results = [...filteredRestaurants];
-
-    if (filters.postalCode) {
-      results = results.filter(restaurant => 
-        restaurant.postalCode.startsWith(filters.postalCode)
-      );
-    }
-
-    if (filters.selectedActivities.length > 0) {
-      results = results.filter(restaurant => 
-        restaurant.tables.some(table => 
-          table.participants.some(participant => 
-            filters.selectedActivities.includes(participant.activity)
-          )
-        )
-      );
-    }
-
-    setFilteredResults(results);
-  }, [filters, filteredRestaurants]);
+  const handleChangePostal = (e)=>{
+    const regex =/^\d*$/;
+    if(regex.test(e.target.value))
+    {return setSearchCriteria({ ...searchCriteria, postalCode: e.target.value })}
+  }
 
   const toggleTableParticipants = (tableId) => {
     setExpandedTables(prev => {
@@ -77,13 +38,13 @@ const SearchResultsPage = ({filteredRestaurants}) => {
                 {/* Filter Header */}
                 <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold">Search Results</h2>
+            <h2 className="text-xl font-semibold">Résultats de recherche</h2>
             <button
               onClick={() => setShowFilters(!showFilters)}
               className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
             >
               <Filter className="w-4 h-4" />
-              Filters
+              Filtres
             </button>
           </div>
 
@@ -94,12 +55,12 @@ const SearchResultsPage = ({filteredRestaurants}) => {
                 {/* Postal Code Filter */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Postal Code
+                    Code Postal
                   </label>
                   <input
                     type="text"
-                    value={filters.postalCode}
-                    onChange={(e) => setFilters(prev => ({ ...prev, postalCode: e.target.value }))}
+                    value={searchCriteria.postalCode}
+                    onChange={(e) =>handleChangePostal(e) }
                     placeholder="Enter postal code"
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -108,25 +69,20 @@ const SearchResultsPage = ({filteredRestaurants}) => {
                 {/* Activities Filter */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Activities
+                    Activités
                   </label>
                   <div className="max-h-48 overflow-y-auto border border-gray-300 rounded-lg p-3">
-                    {activities.map((activity) => (
-                      <label
-                        key={activity.code}
-                        className="flex items-center space-x-2 hover:bg-gray-50 p-2 rounded cursor-pointer"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={filters.selectedActivities.includes(activity.code)}
-                          onChange={() => handleActivityToggle(activity.code)}
-                          className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                        />
-                        <span className="text-sm">
-                          {activity.code} - {activity.name}
-                        </span>
-                      </label>
-                    ))}
+                  {activities.map((activity) => (
+                <label key={activity} className="flex items-center space-x-2 hover:bg-gray-50 p-2 rounded cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={searchCriteria.activities?.includes(activity) || false}
+                    onChange={() => handleActivityChange(activity)}
+                    className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                  />
+                  <span className="text-sm">{activity}</span>
+                </label>
+              ))}
                   </div>
                 </div>
               </div>
@@ -135,7 +91,7 @@ const SearchResultsPage = ({filteredRestaurants}) => {
 
           {/* Results Count */}
           <div className="text-sm text-gray-600">
-            {filteredResults.length} results found
+            {filteredRestaurants.length} resultats trouvés
           </div>
         </div>
 

@@ -1,5 +1,7 @@
+"use client"
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const departments = [
   "01 - Ain",
@@ -177,6 +179,7 @@ const SelectField = ({ label, options, value, onChange, required }) => (
 );
 
 const UserAuthForm = ({ onClose }) => {
+  const router = useRouter()
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -192,6 +195,8 @@ const UserAuthForm = ({ onClose }) => {
     e.preventDefault();
     // Handle form submission here
     console.log(isLogin ? { email: formData.email } : formData);
+    router.push("/utilisateurs")
+
   };
 
   const handleSectorChange = (code) => {
