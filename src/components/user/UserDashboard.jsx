@@ -38,7 +38,7 @@ const UserDashboard = () => {
       address: "24 All. Jean Jaurès",
       postalCode: "31000",
       priceRange: "$$",
-      rating: 4.5,
+      placeType: "restaurant",
       availableTables: [
         {
           id: 1,
@@ -79,7 +79,7 @@ const UserDashboard = () => {
       address: "456 Oak St",
       postalCode: "75002",
       priceRange: "$$$",
-      rating: 4.8,
+      placeType: "Lieu public",
       availableTables: [
         {
           id: 1,
@@ -134,7 +134,7 @@ const UserDashboard = () => {
       address: "321 Pine St",
       postalCode: "75004",
       priceRange: "$",
-      rating: 4.3,
+      placeType: "restaurant",
       availableTables: [
         {
           id: 1,
@@ -162,7 +162,7 @@ const UserDashboard = () => {
       address: "567 Maple Ave",
       postalCode: "75005",
       priceRange: "$$",
-      rating: 4.6,
+      placeType: "Espace partagé",
       availableTables: [
         {
           id: 1,

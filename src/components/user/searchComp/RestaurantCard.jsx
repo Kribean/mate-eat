@@ -26,7 +26,7 @@ const RestaurantCard = ({ restaurant, expandedTables, toggleTableParticipants })
           {restaurant.address}, {restaurant.postalCode}
         </p>
 
-        <p className="text-sm text-gray-600 mb-4">⭐ {restaurant.rating}</p>
+        <p className="text-sm text-gray-600 mb-4">🏢 {restaurant.placeType}</p>
 
         <h4 className="font-medium mb-2">Groupes disponibles</h4>
         <div className="space-y-4">

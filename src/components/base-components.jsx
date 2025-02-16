@@ -1,6 +1,7 @@
 import React from 'react';
 import { Search, Users, Calendar, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Button Component
 export const Button = ({ children, variant = 'primary', className = '', ...props }) => {
@@ -65,12 +66,19 @@ export const Navbar = ({ userName }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
-            <Link href={"/utilisateurs"} className="text-xl font-semibold">Jirani</Link>
+            <Link href={"/utilisateurs"} className="flex flex-row gap-1 items-center text-xl font-semibold">
+            <Image
+            src="/images/jirani.png"
+            width={50}
+            height={50}
+            alt="Picture of the author"
+          />
+            <span className='hidden md:block'>Jirani</span></Link>
           </div>
           <div className="flex items-center space-x-4">
             <LinkButton url='/utilisateurs/rdv' variant="outline" className="flex items-center">
               <Calendar className="w-4 h-4 mr-2" />
-              Mes rendez-vous
+              <span className='hidden md:block'>Mes rendez-vous</span>
             </LinkButton>
             <div className="flex items-center space-x-2">
               <Users className="w-5 h-5 text-gray-600" />

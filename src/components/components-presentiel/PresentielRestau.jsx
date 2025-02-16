@@ -12,7 +12,7 @@ const PresentielRestau = () => {
           address: "24 All. Jean Jaurès",
           postalCode: "31000",
           priceRange: "$$",
-          rating: 4,
+          placeType: "restaurant",
           availableTables: [
             {
               id: 1,
