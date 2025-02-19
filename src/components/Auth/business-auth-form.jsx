@@ -25,12 +25,50 @@ const BusinessAuthForm = ({ onClose }) => {
     lastName: '',
     email: '',
     phoneNumber: '',
-    password: ''
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isLogin) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/entreprises`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          prenom: formData.firstName, 
+          nom: formData.lastName, 
+          email: formData.email, 
+          telephone: formData.phoneNumber 
+        }),
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Erreur lors de la création de l'entreprise");
+        }
+        return response.json(); // Convertir la réponse en JSON
+      })
+      .then(data => {
+        console.log("Entreprise créée :", data);
+      
+        if (data.entreprise && data.entreprise._id && data.entreprise.email) {
+          // Créer un objet avec l'ID et l'email
+          const entrepriseData = {
+            id: data.entreprise._id,
+            email: data.entreprise.email
+          };
+      
+          // Stocker l'objet sous forme de JSON dans localStorage
+          localStorage.setItem("entreprise", JSON.stringify(entrepriseData));
+      
+          console.log("Données enregistrées dans le localStorage :", entrepriseData);
+        } else {
+          console.warn("L'ID ou l'email sont manquants dans la réponse");
+        }
+      })
+      .catch(error => console.error("Erreur :", error));
+      
+      console.log(formData)
       // Handle signup
       setShowConfirmation(true);
       // Reset form
@@ -39,13 +77,11 @@ const BusinessAuthForm = ({ onClose }) => {
         lastName: '',
         email: '',
         phoneNumber: '',
-        password: ''
       });
     } else {
       // Handle login
       console.log('Login with:', {
         email: formData.email,
-        password: formData.password
       });
     }
   };
@@ -130,18 +166,6 @@ const BusinessAuthForm = ({ onClose }) => {
               required
               placeholder="Entrez votre email professionnel"
             />
-
-            {isLogin && (
-              <InputField
-                label="Mot de passe"
-                type="password"
-                value={formData.password}
-                onChange={e => setFormData(prev => ({ ...prev, password: e.target.value }))}
-                required
-                placeholder="Entrez votre mot de passe"
-              />
-            )}
-
             <button
               type="submit"
               className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 font-medium"
