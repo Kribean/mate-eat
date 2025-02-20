@@ -3,8 +3,9 @@ import { Pencil, Trash2, Calendar, Printer, Download, Mail, X } from 'lucide-rea
 import { QRCodeCanvas } from 'qrcode.react';
 import html2canvas from 'html2canvas';
 
-const RestaurantCard = ({ restaurant, onEdit, onDelete }) => {
-    const flyerRef = useRef(null);
+const RestaurantCardEntre = ({ restaurant, onEdit, onDelete }) => {
+  const [booking,setBooking]=useState([])
+  const flyerRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
 
   const handleDownload = async (format) => {
@@ -27,19 +28,19 @@ const RestaurantCard = ({ restaurant, onEdit, onDelete }) => {
             <button onClick={() => onEdit(restaurant)} className="p-1 hover:bg-gray-100 rounded">
               <Pencil className="w-4 h-4 text-gray-600" />
             </button>
-            <button onClick={() => onDelete(restaurant.id)} className="p-1 hover:bg-gray-100 rounded">
+            <button onClick={() => onDelete(restaurant._id)} className="p-1 hover:bg-gray-100 rounded">
               <Trash2 className="w-4 h-4 text-red-600" />
             </button>
           </div>
         </div>
         <div className="space-y-2 text-sm">
           <p><span className="font-medium">Manager:</span> {restaurant.managerName}</p>
-          <p><span className="font-medium">Address:</span> {restaurant.address}</p>
+          <p><span className="font-medium">Address:</span> {restaurant?.businessAddress}</p>
           <p><span className="font-medium">Postal Code:</span> {restaurant.postalCode}</p>
-          <p><span className="font-medium">Cuisine:</span> {restaurant.foodType}</p>
+          <p><span className="font-medium">Cuisine:</span> {restaurant?.typeOfFoodServed}</p>
           {restaurant.bookingUrl && (
             <p>
-              <span className="font-medium">Booking:</span> <a href={restaurant.bookingUrl} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Book Now</a>
+              <span className="font-medium">Booking:</span> <a href={restaurant?.bookingUrl} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Book Now</a>
             </p>
           )}
         </div>
@@ -48,11 +49,11 @@ const RestaurantCard = ({ restaurant, onEdit, onDelete }) => {
             <Calendar className="w-4 h-4" /> Réservations du jour
           </h4>
           <div className="space-y-2">
-            {restaurant.bookings[0]?.guests.map((booking, index) => (
+            {/* {restaurant.bookings[0]?.guests.map((booking, index) => (
               <div key={index} className="bg-gray-50 p-2 rounded text-sm">
                 {booking.time} - {booking.name} (Party of {booking.party})
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
         <div className="mt-4 border-t pt-4">
@@ -113,4 +114,4 @@ const RestaurantCard = ({ restaurant, onEdit, onDelete }) => {
   );
 };
 
-export default RestaurantCard;
+export default RestaurantCardEntre;

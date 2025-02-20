@@ -13,7 +13,12 @@ const RestaurantCreationForm = ({ onSubmit, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    onSubmit(formData.businessName,
+    formData.address,
+    formData.postalCode,
+    formData.foodType,
+    formData.bookingUrl
+    );
     setFormData({
       businessName: "",
       managerName: "",

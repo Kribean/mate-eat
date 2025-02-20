@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
+import { getConnectedToCompanyAccount } from '@/services/userFct';
+import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
 
 const InputField = ({ label, type, value, onChange, required, placeholder }) => (
   <div className="mb-4">
@@ -18,6 +21,8 @@ const InputField = ({ label, type, value, onChange, required, placeholder }) => 
 );
 
 const BusinessAuthForm = ({ onClose }) => {
+  const notifyError = () => toast("Votre email est incorrect.Si l'erreur continue, contactez-nous à agence.aykin@gmail.com");
+  const router = useRouter()
   const [isLogin, setIsLogin] = useState(true);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [formData, setFormData] = useState({
@@ -27,7 +32,7 @@ const BusinessAuthForm = ({ onClose }) => {
     phoneNumber: '',
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isLogin) {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/entreprises`, {
@@ -54,12 +59,13 @@ const BusinessAuthForm = ({ onClose }) => {
         if (data.entreprise && data.entreprise._id && data.entreprise.email) {
           // Créer un objet avec l'ID et l'email
           const entrepriseData = {
-            id: data.entreprise._id,
+            type:"company",
+            _id: data.entreprise._id,
             email: data.entreprise.email
           };
       
           // Stocker l'objet sous forme de JSON dans localStorage
-          localStorage.setItem("entreprise", JSON.stringify(entrepriseData));
+          localStorage.setItem("jiraniApp", JSON.stringify({user:{...entrepriseData,type:"company"}}));
       
           console.log("Données enregistrées dans le localStorage :", entrepriseData);
         } else {
@@ -80,9 +86,13 @@ const BusinessAuthForm = ({ onClose }) => {
       });
     } else {
       // Handle login
-      console.log('Login with:', {
-        email: formData.email,
-      });
+      const resu = await getConnectedToCompanyAccount(formData.email)
+      if(resu?.user)
+      {
+        router.push("/entreprise")
+      }else{
+        notifyError()
+      }
     }
   };
 
@@ -175,6 +185,7 @@ const BusinessAuthForm = ({ onClose }) => {
           </form>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };

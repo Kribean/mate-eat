@@ -1,41 +1,66 @@
-import React, { useState } from 'react';
+"use client"
+import React, { useEffect, useState } from 'react';
 import { PlusCircle } from 'lucide-react';
 import RestaurantList from './RestaurantList';
 import RestaurantForm from './RestaurantForm';
 import RestaurantCreationForm from './RestaurantCreationForm';
+import { getInLocal } from '@/services/userFct';
+import { useRouter } from 'next/navigation';
+import { createRestoByCompanyId, deleteRestoById, getAllRestoByCompanyId } from '@/services/restaurant_services';
 
-const RestaurantDashboard = () => {
-  const [restaurants, setRestaurants] = useState([
-    {
-      id: 1,
-      businessName: "Le Duplex",
-      managerName: "John Doe",
-      address: "24 All. Jean Jaurès",
-      postalCode: "31000",
-      foodType: "French",
-      bookingUrl: "https://www.google.com/maps/reserve/v/dine/c/BZyjhyELQHg",
-      bookings: [
-        { date: "2025-02-11", guests: [
-          { name: "Alice Smith", time: "12:00", party: 4 },
-          { name: "Bob Johnson", time: "12:30", party: 2 }
-        ]}
-      ]
-    }
-  ]);
 
+const RestaurantDashboardEntre = () => {
+  const router = useRouter()
+  const [restaurants, setRestaurants] = useState([]);
+  const [userDetail,setUserDetail]=useState()
   const [showForm, setShowForm] = useState(false);
   const [showForm2, setShowForm2] = useState(false);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
-  const handleAddRestaurant = (restaurantData) => {
-      setRestaurants([...restaurants, { ...restaurantData, id: restaurants.length + 1, bookings: [] }]);
+
+  useEffect(()=>{
+    const user = getInLocal()
+    setUserDetail(user)
+    if(!user || user?.type!=="company")
+    {
+      router.push("/")
+    }else{
+      getAllRestoByCompanyId(user._id).then((data)=>{
+        if(data)
+          {
+            setRestaurants(data)
+          }
+      })
+
+    }
+  },[])
+  const handleAddRestaurant = (businessName,
+    businessAddress,
+    postalCode,
+    typeOfFoodServed,
+    bookingURL) => {
+    createRestoByCompanyId(businessName,
+      userDetail._id,
+      businessAddress,
+      postalCode,
+      typeOfFoodServed,
+      bookingURL)
+      .then(() => {
+        return getAllRestoByCompanyId(userDetail._id); // Récupérer les nouveaux restaurants
+      })
+      .then((updatedRestaurants) => {
+        setRestaurants(updatedRestaurants); // Mettre à jour l'état
+      })
+      .catch((error) => {
+        console.error("Erreur lors de l'ajout du restaurant :", error);
+      });
     setShowForm(false);
     setSelectedRestaurant(null);
   };
 
   const handleModifyRestaurant = (restaurantData) => {
 
-      setRestaurants(restaurants.map(r => r.id === selectedRestaurant.id ? { ...restaurantData, id: r.id, bookings: r.bookings } : r));
+      // setRestaurants(restaurants?.map(r => r.?id === selectedRestaurant.id ? { ...restaurantData, id: r.id, bookings: r.bookings } : r));
 
     setShowForm2(false);
     setSelectedRestaurant(null);
@@ -49,7 +74,16 @@ const RestaurantDashboard = () => {
 
 
   const handleDelete = (id) => {
-    setRestaurants(restaurants.filter(r => r.id !== id));
+    deleteRestoById(id)
+      .then(() => {
+        return getAllRestoByCompanyId(userDetail._id); // Récupérer les nouveaux restaurants
+      })
+      .then((updatedRestaurants) => {
+        setRestaurants(updatedRestaurants); // Mettre à jour l'état
+      })
+      .catch((error) => {
+        console.error("Erreur lors de l'ajout du restaurant :", error);
+      });
   };
 
   return (
@@ -83,4 +117,4 @@ const RestaurantDashboard = () => {
   );
 };
 
-export default RestaurantDashboard;
+export default RestaurantDashboardEntre;
